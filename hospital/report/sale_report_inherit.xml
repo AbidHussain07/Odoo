@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="sale_report_inherit" name="sale_order" inherit_id="sale.report_saleorder_document">
+    
+        <!-- <xpath expr="//t[@t-set='doc']" position="replace">
+            <t t-call="custom_header_footer.custom_layout"/>
+        </xpath> -->
+
+        <!-- Inherit the Custom Footer -->
+        <!-- <xpath expr="//t[@t-set='forced_vat']" position="replace">
+            <t t-call="custom_header_footer.custom_footer"/>
+        </xpath> -->
+    
+        <!-- <xpath expr="//div[@class='row mb-4']" position="after">
+            <div class="col">
+                <strong>Hii I am new in developing odoo </strong>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@t-field='doc.partner_id']" position="replace">
+        </xpath>
+
+        <xpath expr="//p[@t-if='doc.partner_id.vat']" position="replace"> -->
+        <!-- Empty block to remove the Tax ID section -->
+    <!-- </xpath> -->
+
+    </template>
+
+</odoo>

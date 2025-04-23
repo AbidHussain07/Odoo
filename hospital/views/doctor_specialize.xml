@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_specialize_tree" model="ir.ui.view">
+        <field name="name">specialize.tree</field>
+        <field name="model">hospital.specialist</field>
+        <field name="arch" type ="xml">
+            <list string="Doctor Specialize" editable="bottom" > 
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+
+<record id="action_specialize" model="ir.actions.act_window" >
+    <field name="name">Speciality</field>
+    <field name="res_model">hospital.specialist</field>
+    <field name="view_mode">list</field>
+    <field name="help" type="html">
+    <p class="o_view_nocontent_smiling_face">
+    Create new Specialize Field</p></field>
+</record>
+
+</odoo>

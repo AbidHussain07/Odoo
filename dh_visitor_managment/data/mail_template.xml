@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="visitor_otp_verification" model="mail.template">
+            <field name="name">Welcome Email</field>
+            <field name="model_id" ref="dh_visitor_managment.model_visitor_partner"/>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="email_to">{{ object.partner_id.email or '' }}</field>
+            <field name="subject">Visitor OTP Verification</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <t t-set="doc_name" t-value="object.partner_id.name"/>
+                        Hello <t t-out="object.v_name or 'User'"/>, 
+                        <br/><br/>
+                        Your otp is: <t t-out="object.otp"/> 
+                        <br/><br/>
+                        Thanks.
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="visitor_email_template" model="mail.template">
+            <field name="name">Visitor Approval Email</field>
+            <field name="model_id" ref="dh_visitor_managment.model_visitor_partner"/>
+            <field name="subject">{{object.name}}:Visitor Approval Request</field>
+            <field name="email_from">{{ user.email or '' }}</field>
+            <field name="email_to">{{ object.responsible_person.email or '' }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <t t-set="doc_name" t-value="object.responsible_person"/>
+                        Hello <t t-out="object.responsible_person.name or ''">User</t>,
+                        <br/><br/>
+                        A visitor has arrived at the security gate to meet you. Below are the visitor's details:
+                        <br/><br/>
+                        <ul style="margin: 0px; padding-left: 20px; font-size: 13px;">
+                            <li>Name: <t t-out="object.partner_id.name or ''"></t></li>
+                            <li>Company Name: <t t-out="object.company_name or ''"></t></li>
+                            <li>Mobile: <t t-out="object.phone or ''"></t></li>
+                            <li>Email: <t t-out="object.email or ''"></t></li>
+                        </ul>
+                        <br/>
+                        <a t-attf-href="/web#id={{object.id}}&amp;model={{object._name}}&amp;view_type=form">
+                            Click here
+                        </a> to see the visitor's details.
+                        <br/>
+                        Kindly verify the visitor's information and provide your approval or rejection.
+                        <br/><br/>
+                        Thank you.
+                        <br/><br/>
+                        Regards
+                        <br/>
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

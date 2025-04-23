@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the existing view -->
+        <record id="view_inherit_form" model="ir.ui.view">
+            <field name="name">sale.hospital.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!-- Add your customizations here -->
+                <xpath expr="//group[@name='order_details']/field[@name='payment_term_id']" position="before">
+                    <field name="confirmed_user_id"/>
+                </xpath>
+            </field>
+        </record>
+
+<!-- to understand move position  -->
+        <record id="view_inherit_tree" model="ir.ui.view">
+            <field name="name">sale.hospital.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+                <!-- Add your customizations here -->
+                <xpath expr="//field[@name='activity_ids']" position="before">
+                    <field name="amount_total" position="move"/>
+                </xpath>
+            </field>
+        </record>
+
+        
+    </data>
+</odoo>

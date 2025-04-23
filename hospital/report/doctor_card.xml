@@ -1,0 +1,91 @@
+<odoo>
+    <template id="report_doctor_card">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="oe_structure" />
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <table class="table table-condensed"
+                                style="border: 3px solid black !important;">
+                                <tr>
+                                    <td width="40%">
+                                        <p style="text-align:center;padding-top:10px;">
+                                            <img t-if="not o.profile"
+                                                t-att-src="'/hospital/static/src/img/patient.jpeg'"
+                                                height="170" border="1" width="170" />
+                                            <img t-if="o.profile"
+                                                t-att-src="'data:image/jpeg;base64,' + o.profile.decode('utf-8')"
+                                                height="170" border="1" width="170" />
+                                        </p>
+                                    </td>
+                                    <td width="60%">
+                                        <table>
+                                            <tr>
+                                                <td colspan="3" class="text-center">
+                                                    <strong>
+                                                        <span t-field="o.name" />
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <hr />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Gender </strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>: </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.gender" />
+                                                </td>
+                                            </tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Speciality</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>: </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.specialization.name" />
+                                                </td>
+                                            </tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Location</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>: </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.location" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_subscription_technical_form" model="ir.ui.view">
+        <field name="name">desi.dabba.technical.form</field>
+        <field name="model">desi.dabba.technical</field>
+        <field name="arch" type="xml">
+            <form string="Techniques">
+                <sheet>
+                    <group>
+                        <field name="model_id" />
+                        <field name="code" widget="ace" options="{'mode':'python'}"/>
+                    </group>
+                    <group>
+                    <button string="Execute" type="object" name="action_execute" class="btn-primary" />
+                    <button string="Clear" type="object" name="action_clear"  />
+                    </group>
+                    <group>
+                        <field name="result" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_technical" model="ir.actions.act_window">
+        <field name="name">Techniques</field>
+        <field name="res_model">desi.dabba.technical</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <menuitem id="menu_subscription_techniques" name="Technical" parent="sale_subscription.menu_sale_subscription_config" action="action_hospital_technical" sequence="10"/>
+
+
+</odoo>

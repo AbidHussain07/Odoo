@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="extend_address_form" inherit_id="website_sale.address">
+    <!-- <xpath expr="//div[contains(@class, 'form-group o_website_form_required')][1]" position="before"> -->
+    <xpath expr="//div[contains(@id, 'div_street2')]" position="after">
+        <div class="form-group">
+            <label for="complex_id">Complex</label>
+            <select name="complex_id" id="complex_id" class="form-control">
+                <option value="">Select Complex</option>
+                <t t-foreach="request.env['res.partner.complex'].sudo().search([])" t-as="complex">
+                    <option t-att-value="complex.id" t-att-selected="complex.id == complex_id">
+                        <t t-esc="complex.name"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="wing_id">Wing</label>
+            <select name="wing_id" id="wing_id" class="form-control">
+                <option value="">Select Wing</option>
+                <t t-if="wing_id">
+                    <option t-att-value="wing_id" selected="selected">
+                        <t t-esc="request.env['res.partner.wing'].sudo().browse(wing_id).name"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="office_no">Office No.</label>
+            <input type="text" name="office_no" id="office_no" class="form-control" t-att-value="office_no"/>
+        </div>
+
+        <div class="form-group">
+            <label for="region_id">Region</label>
+            <input type="text" name="region_id" id="region_id" class="form-control" readonly="readonly" invisible='1'
+                   t-att-value="request.env['res.partner.region'].sudo().browse(region_id).name if region_id else ''"/>
+        </div>
+    </xpath>
+
+</template>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="visitor_root_menu" name="Visitors" />
+    
+    <menuitem id="company_visitor" name="Visitor" action="visitor_action"   sequence="0" parent="dh_visitor_managment.visitor_root_menu"/>
+    <menuitem id="visitor_managment_menu" name="Management" sequence="3" parent="dh_visitor_managment.visitor_root_menu" groups="dh_visitor_managment.group_visitor_management,dh_visitor_managment.group_visitor_manager"/>
+    <menuitem id="visitor_security_menu" name="Security"  sequence="1" parent="dh_visitor_managment.visitor_root_menu" groups="dh_visitor_managment.group_vistor_security,dh_visitor_managment.group_visitor_manager"/>
+    <menuitem id="visitor_configuration_menu" name="Configuration"  sequence="4" parent="dh_visitor_managment.visitor_root_menu"  groups="dh_visitor_managment.group_visitor_manager"/>
+    <menuitem id="visitor_reporting_menu" name="Reporting"  sequence="2" parent="dh_visitor_managment.visitor_root_menu" groups="dh_visitor_managment.group_visitor_manager"/>
+
+    <menuitem id="visitor_reporting_submenu" name="Visitor Summary Report"  sequence="1" parent="dh_visitor_managment.visitor_reporting_menu" action="visitor_reporting_action"  />
+    <menuitem id="visitor_category" name="Visitor Category "  sequence="1" action="visitor_category_action" parent="dh_visitor_managment.visitor_configuration_menu"/>
+    <menuitem id="visitor_menu" name="Visitor Type "   sequence="2" action="visitor_menu_action" parent="dh_visitor_managment.visitor_configuration_menu"/>
+    <menuitem id="gate_menu" name="Security Gate "  sequence="3"  action="gate_menu_action" parent="dh_visitor_managment.visitor_configuration_menu"/>
+    <menuitem id="visitor_managment" name="Visitor"  sequence="1"  action="visitor_managment_action" parent="dh_visitor_managment.visitor_managment_menu"/>
+    <menuitem id="validate_qr" name="Validate Qr"  sequence="1"  action="dh_visitor_managment.visitor_validate_qr" parent="dh_visitor_managment.visitor_security_menu"/>
+    
+
+
+</odoo>

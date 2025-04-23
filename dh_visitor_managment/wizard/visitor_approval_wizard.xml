@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="visitor_reject_form_view" model="ir.ui.view">
+        <field name="name">visitor.reject.form.view</field>
+        <field name="model">visitor.reject</field>
+        <field name="arch" type="xml">
+            <form string="visitor reject ">
+                <group>
+                    <field name="rejection_reason" maxlength="6"/>
+                </group>
+                <footer>
+                    <button name="action_reject_visitor" type="object" string="Submit" class="oe_highlight pull-right"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+               </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="visitor_otp_form_view" model="ir.ui.view">
+        <field name="name">visitor.otp.form.view</field>
+        <field name="model">visitor.otp</field>
+        <field name="arch" type="xml">
+            <form string="visitor OTP ">
+                <group>
+                    <field name="verification_otp"/>
+                </group>
+                <footer>
+                    <button name="verify_otp" type="object" string="Verify" class="oe_highlight pull-right"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+               </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="visitor_check_form_view" model="ir.ui.view">
+        <field name="name">visitor.check.form.view</field>
+        <field name="model">check.visitor</field>
+        <field name="arch" type="xml">
+            <form string="visitor check ">
+                <group>
+                        <field name="visitor_id" invisible="1" />
+                        <field name="visitor_name" invisible="1"/>
+                        <field name="gate_number_id"/>
+                        <field name="security_guard_id" invisible="1"/>
+
+
+                        <field name="validated_qr_code" widget="yc_boolean_scanner" options="{'accepted_barcode_field': 'visitor_name'}" invisible="context.get('custom_wizard_type') not in ('checkin','checkout')" />
+                        <field name="partner_id"  widget="yc_many2one_barcode_scanner" domain="[('state', '=', 'otp_verification')]" invisible="context.get('custom_wizard_type') != 'validate'" />
+                </group>
+                <footer>
+                    <button name="action_validate_qr" type="object" string="Validate" class="oe_highlight pull-right"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+               </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="visitor_reporting_form_view" model="ir.ui.view">
+        <field name="name">visitor.reporting.form.view</field>
+        <field name="model">visitor.reporting</field>
+        <field name="arch" type="xml">
+            <form string="Visitor Reports">
+                <group>
+                    <group>                        
+                        <field name="checkin"/>
+                        <field name="responsible_persons"/>
+                    </group>
+                    <group>
+                        <field name="checkout"/>
+                        <field name="gate_number_id"/>
+
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_visitor_reporting_detail" type="object" string="Print" class="oe_highlight pull-right"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+               </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="menu_hospital_main" model="website.menu">
+        <field name="name">Hospital</field>
+        <field name="url">/</field>
+        <field name="parent_id" search="[('parent_id','=', False),('website_id','=',1)]" />
+        <field name="sequence" type="int">10</field>
+        <field name="website_id" ref="website.default_website"/>
+    </record>
+
+    <record id="menu_hospital_website_patient" model="website.menu">
+        <field name="name">Patients</field>
+        <field name="url">/hospital/patients/</field>
+        <field name="parent_id" ref="hospital.menu_hospital_main" />
+        <field name="sequence" type="int">10</field>
+        <field name="website_id" ref="website.default_website"/>
+    </record>
+
+</odoo>

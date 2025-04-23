@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========= Contact Tags =========== -->
+    <!-- <record id="partner_tag_access_rule" model="ir.rule">
+        <field name="name">Partner Access by Contact Tags</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">
+             ['|', 
+                ('category_id', 'in', user.contact_tag_ids.ids), 
+                ('category_id', '=', False)
+            ]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record> -->
+
+    <!-- ========= Employee Department =========== -->
+    <record id="employee_tag_access_rule" model="ir.rule">
+        <field name="name">Access Contacts by Department Tags</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">
+            ['|',
+                ('department_ids', '=', False), 
+                ('department_ids', 'in', [user.employee_id.department_id.id])
+            ]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    
+</odoo>
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_contacts" model="ir.module.category">
+        <field name="name">Contact Access</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="group_contact_tagged_user" model="res.groups">
+        <field name="name">Users With Contact Tags</field>
+        <field name="category_id" ref="access_rights.module_category_contacts"/>
+    </record>
+    
+    <record id="group_contact_untagged_user" model="res.groups">
+        <field name="name">Users Without Contact Tags</field>
+        <field name="category_id" ref="access_rights.module_category_contacts"/>
+    </record>
+
+    <record id="rule_partner_tagged_only" model="ir.rule">
+        <field name="name">Access Partners Matching User Tags</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[('category_id', 'in', user.contact_tag_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('access_rights.group_contact_tagged_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_partner_all_access" model="ir.rule">
+        <field name="name">Access All Partners</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[]</field>
+        <field name="groups" eval="[(4, ref('access_rights.group_contact_untagged_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo> -->
+
+<!-- ==================================EMPLOYEEE DEPARTMENT================================================================ -->
+
+<!-- <record id="module_category_employee" model="ir.module.category">
+    <field name="name">Access by Employee</field>
+    <field name="sequence">1</field>
+</record>
+
+<record id="group_department_user" model="res.groups">
+    <field name="name">Users With Employee Department</field>
+    <field name="department_ids" ref="access_rights.module_category_employee"/>
+</record>
+
+<record id="group_undepartment_user" model="res.groups">
+    <field name="name">Users Without Employee Department</field>
+    <field name="department_ids" ref="access_rights.module_category_employee"/>
+</record>
+
+<record id="employee_tag_access_rule_no_dept" model="ir.rule">
+    <field name="name">Full Access for Users Without Department</field>
+    <field name="model_id" ref="base.model_res_partner"/>
+    <field name="domain_force">
+        []
+    </field>
+    <field name="groups" eval="[(4, ref('access_rights.group_undepartment_user'))]"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+</record>
+
+<record id="employee_tag_access_rule" model="ir.rule">
+    <field name="name">Access Contacts by Department Tags</field>
+    <field name="model_id" ref="base.model_res_partner"/>
+    <field name="domain_force">
+        ['|',
+            ('department_ids', '=', False), 
+            ('department_ids', 'in', [user.employee_id.department_id.id])
+        ]
+    </field>
+    <field name="groups" eval="[(4, ref('access_rights.group_department_user'))]"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+</record> -->

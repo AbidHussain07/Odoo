@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_patient_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <list string="Patients" sample="1">
+                <field name="name" />
+                <field name="gender" optional="show" />
+                <field name="dob" optional="hide" />
+                <field name="appointment_count" sum="Total Appointment" />
+            </list>
+        </field>
+    </record>
+
+     <!-- Kanban View for Hospital Patient -->
+    <record id="view_hospital_kanban" model="ir.ui.view">
+        <field name="name">hospital.patient.kanban</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="priority" string="Patients">
+                <field name="name"/>
+                <templates>
+                    <field name="priority"/>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card d-flex align-items-start" style="gap: 10px;">
+                            <!-- Left: Image -->
+                            <div style="width: 100px; height: 100px;">
+                                <field name="patient_image"
+                                       widget="image"
+                                       class="img img-fluid rounded"
+                                       options="{'img_class': 'object-fit-cover'}"
+                                       alt="Patient image"/>
+                            </div>
+    
+                            <!-- Right: Info -->
+                            <div class="oe_kanban_content">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <div class="oe_kanban_details mt-1">
+                                    <div>
+                                        <strong>Age:</strong> <field name="age"/>
+                                    </div>
+                                    <div>
+                                        <strong>Gender:</strong> <field name="gender"/>
+                                    </div>
+                                    <div>
+                                        <strong>Priority:</strong>
+                                        <field name="priority" widget="priority"/>
+                                    </div>
+                                    <div>
+                                        <strong>Mobile:</strong> <field name="mobile"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+      
+
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patients">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                        invisible="active" />
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_appointment" type="object" class="oe_stat_button"
+                            icon="fa-star">
+                            <field name="appointment_count" string="Appointments" widget="statinfo" />
+                        </button>
+                        <!-- <button name="action_prescription" string="Prescriptions"
+                            type="action" class="oe_stat_button" icon="fa-stethoscope" /> -->
+                    </div>
+                    <div class="alert alert-info text-center o_form_header" role="alert"
+                        invisible="is_birthday == False">
+                        <!-- <a class="close" data-dismiss="alert" href="#">x</a> -->
+                        <div>
+                            <strong>Happy Birthday!</strong>
+                        </div>
+                        <div>
+                            <strong>Wishing you a very happy birthday! <field name="name"
+                                    readonly="1" /></strong>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>
+                            <field name="priority" widget="priority"></field>
+                        </h2>
+                    </div>
+                    <field name="patient_image" widget="image" class="oe_avatar" />
+                    <group>
+                        <group>
+                            <field name="name" widget="char" />
+                            <field name="dob" />
+                            <field name="age" />
+                            <field name="gender" widget="radio" />
+                        </group>
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags"
+                                options="{'color_field': 'color'}" />
+                            <field name="minor" widget="boolean_toggle" />
+                            <field name="guardian_relation" invisible="not minor" required="minor" />
+                            <field name="guardian_name" invisible="not minor"
+                                readonly="guardian_relation in ('mother', 'father')" />
+                            <!-- <field name="guardian_name" invisible="not minor"
+                            readonly="guardian_relation == 'mother'"/> -->
+                            <field name="active" invisible="1" />
+                            <field name="appointment_count" />
+                            <!-- <field name="reference_record" /> -->
+                            <button name="action_sql_query" type="object" string="Return SQL Query"
+                                class="btn-outline-primary"
+                                icon="fa-send" />
+                            <button name="special_command" type="object" string="Special Commmand"
+                                class="btn-outline-secondary"
+                                icon="fa-setting" />
+                        </group>
+                    </group>
+                    <group string="Other Information">
+                        <group>
+                            <field name="mobile" widget="phone" />
+                            <field name="email" widget="email" />
+                        </group>
+                        <group>
+                            <field name="phone" widget="phone" />
+                            <field name="website" widget="url" />
+                        </group>
+                    </group>
+                </sheet>
+                <chatter />
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div> -->
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name" />
+                <field name="dob" />
+                <field name="age" />
+                <field name="gender" />
+                <filter name="male_search" string="Male" domain="[('gender', '=', 'male')]" />
+                <!-- <separator /> for using as `and` operator instead of `or` operator which is by
+                default -->
+                <filter name="female_search" string="Female" domain="[('gender', '=', 'female')]" />
+                <separator />
+                <filter name="archive_search" string="Archived" domain="[('active', '=', False)]" />
+                <group expand="1" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}" />
+                    <filter name="group_by_dob" string="Date of Birth" context="{'group_by':'dob'}" />
+                </group>
+                <searchpanel>
+                    <field name="gender" select="multi" string="Gender" enable_counters="1"
+                        icon="fa-user" /> <!-- enable_counters="1" for showing count of records &
+                    select="multi" for checkbox type searchpanel-->
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[]</field>
+        <!-- <field name="domain">[('gender' ,'=','female'),('age' ,'&lt;=',7)]</field> -->
+        <field name="search_view_id" ref="view_hospital_patient_search" />
+        <field name="context">{'search_default_group_by_gender': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Pehle Patient toh bana bhai</p>
+        </field>
+    </record>
+
+</odoo>

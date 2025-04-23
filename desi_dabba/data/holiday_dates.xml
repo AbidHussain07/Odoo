@@ -1,0 +1,10 @@
+<odoo>
+    <record id="holiday_new_year" model="tiffin.holiday">
+        <field name="name">New Year</field>
+        <field name="date">2025-01-01</field>
+    </record>
+    <record id="holiday_independence_day" model="tiffin.holiday">
+        <field name="name">Republic Day</field>
+        <field name="date">2025-01-26</field>
+    </record>
+</odoo>

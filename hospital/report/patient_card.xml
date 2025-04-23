@@ -1,0 +1,95 @@
+<odoo>
+    <template id="report_patient_card">
+        <t t-call="web.basic_layout">
+            <!-- Set the company object -->
+            <t t-set="company" t-value="res_company" />
+            <!-- Call the custom header -->
+            <t t-call="custom_header_footer.custom_header" />
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="oe_structure" />
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <table class="table table-condensed"
+                                style="border: 3px solid black !important;">
+                                <tr>
+                                    <td width="40%">
+                                        <p style="text-align:center;padding-top:10px;">
+                                            <img t-if="not o.patient_image"
+                                                t-att-src="'/hospital/static/src/img/patient.jpeg'"
+                                                height="170" border="1" width="170" />
+                                            <img t-if="o.patient_image"
+                                                t-att-src="'data:image/jpeg;base64,' + o.patient_image.decode('utf-8')"
+                                                height="170" border="1" width="170" />
+                                        </p>
+                                    </td>
+                                    <td width="60%">
+                                        <table>
+                                            <tr>
+                                                <td colspan="3" class="text-center">
+                                                    <strong>
+                                                        <span t-field="o.name" />
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <hr />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Date of Birth </strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>: </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.dob" />
+                                                </td>
+                                            </tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Age</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>: </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.age" />
+                                                </td>
+                                            </tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Gender</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>: </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.gender" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,32 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+
+access_security_person, Access  Security Person ,model_visitor_partner,dh_visitor_managment.group_vistor_security,1,1,1,0
+access_visitor_category, Access visitor category,model_visitor_category,dh_visitor_managment.group_vistor_security,1,0,0,0
+access_visitor_type, Access visitor type,model_visitor_type,dh_visitor_managment.group_vistor_security,1,0,0,0
+access_security_gates, Access security gates,model_security_gates,dh_visitor_managment.group_vistor_security,1,0,0,0
+access_visitor_reporting, Access Visitor Reporting,model_visitor_reporting,,1,1,1,1
+
+
+
+access_dh_visitor_managment, Access visitor managment ,model_visitor_partner,dh_visitor_managment.group_visitor_management,1,1,0,0
+access_visitor_category_managment, Access Visitor Category Managment,model_visitor_category,dh_visitor_managment.group_visitor_management,1,0,0,0
+access_visitor_type_managment,Access Visitor Type Managment,model_visitor_type,dh_visitor_managment.group_visitor_management,1,0,0,0
+access_security_gates_managment, Access Security Gates Managment,model_security_gates,dh_visitor_managment.group_visitor_management,1,0,0,0
+
+
+
+access_visitor_Administrator, Access visitor Administrator ,model_visitor_partner,dh_visitor_managment.group_visitor_manager,1,1,1,1
+
+access_visitor_category_Administrator, Access visitor category Administrator,model_visitor_category,dh_visitor_managment.group_visitor_manager,1,1,1,1
+
+access_visitor_type_Administrator, Access visitor type Administrator,model_visitor_type,dh_visitor_managment.group_visitor_manager,1,1,1,1
+
+access_security_gates_Administrator, Access security gates Administrator,model_security_gates,dh_visitor_managment.group_visitor_manager,1,1,1,1
+
+
+access_visitor_reject, Access visitor reject ,model_visitor_reject,,1,1,1,1
+access_visitor_otp, Access visitor otp ,model_visitor_otp,,1,1,1,1
+access_checkin_checkout_visitor, Access Check Visitor ,model_check_visitor,,1,1,1,1
+
+

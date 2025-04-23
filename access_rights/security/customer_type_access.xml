@@ -1,0 +1,52 @@
+<odoo>
+    <data noupdate="0">
+    
+        <record id="module_category_customer_type" model="ir.module.category">
+            <field name="name">Access as per Customer Type</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="group_vendor_user" model="res.groups">
+            <field name="name">Vendor User</field>
+            <field name="category_id" ref="access_rights.module_category_customer_type"/>
+        </record>
+
+        <record id="group_customer_user" model="res.groups">
+            <field name="name">Customer User</field>
+            <field name="category_id" ref="access_rights.module_category_customer_type"/>
+        </record>
+
+        <record id="group_other_user" model="res.groups">
+            <field name="name">Other User</field>
+            <field name="category_id" ref="access_rights.module_category_customer_type"/>
+            <field name="users" eval="[(4, ref('base.default_user'))]"/> <!--to tick default to new user-->
+        </record>
+
+
+        <record id="rule_partner_vendor_user" model="ir.rule">
+            <field name="name">Vendor User - Can see Vendor and Other Contacts</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="groups" eval="[(4, ref('access_rights.group_vendor_user'))]"/>
+            <field name="domain_force">
+                ['|', ('customer_type', '=', 'vendor'), ('customer_type', '=', 'other')]
+            </field>
+        </record>
+
+        <record id="rule_partner_customer_user" model="ir.rule">
+            <field name="name">Customer User - Can see Customer and Other Contacts</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="groups" eval="[(4, ref('access_rights.group_customer_user'))]"/>
+            <field name="domain_force">
+                ['|', ('customer_type', '=', 'customer'), ('customer_type', '=', 'other')]
+            </field>
+        </record>
+
+        <record id="rule_partner_other_user" model="ir.rule">
+            <field name="name">Other User - Can see only Other Contacts</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="groups" eval="[(4, ref('access_rights.group_other_user'))]"/>
+            <field name="domain_force">[('customer_type', '=', 'other')]</field>
+        </record>
+
+    </data>
+</odoo>

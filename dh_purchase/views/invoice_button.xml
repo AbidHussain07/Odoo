@@ -1,0 +1,18 @@
+<odoo>
+    <record id="action_bulk_invoice_button" model="ir.actions.server">
+      <field name="name">Send Bulk Invoices</field>
+      <field name="model_id" ref="account.model_account_move"/>
+      <field name="binding_model_id" ref="account.model_account_move"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+            'type': 'ir.actions.act_window',
+            'res_model': 'bulk.invoice.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_invoice_ids': [rec.id for rec in records]},
+        }
+      </field>
+    </record>
+  </odoo>
+  

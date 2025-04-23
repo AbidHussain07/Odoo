@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_tiffin_holiday,access_tiffin_holiday,model_tiffin_holiday,base.group_user,1,1,1,0
+access_working_days,access.working.days,model_working_days,base.group_user,1,1,1,1
+access_desi_dabba_technical,desi.dabba.technical,model_desi_dabba_technical,base.group_user,1,1,1,1
+
+access_reschedule_delivery,access.reschedule.delivery,model_reschedule_delivery_wizard,base.group_user,1,1,1,1
+access_daily_report_delivery_wizard,daily.report.delivery.wizard,model_daily_report_delivery_wizard,base.group_user,1,1,1,1
+
+access_res_partner_complex,res.partner.complex,model_res_partner_complex,base.group_user,1,1,1,1
+access_res_partner_wing,res.partner.wing,model_res_partner_wing,base.group_user,1,1,1,1
+access_res_partner_region,res.partner.region,model_res_partner_region,base.group_user,1,1,1,1

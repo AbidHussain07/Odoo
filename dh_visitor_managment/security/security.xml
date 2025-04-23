@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_visitor" model="ir.module.category">
+            <field name="name">Vistor Management</field>
+            <field name="description">User access level for Visitor</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="group_vistor_security" model="res.groups">
+            <field name="name">Security Person</field>
+            <field name="category_id" ref="module_category_visitor"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_visitor_management" model="res.groups">
+            <field name="name">Management</field>
+            <field name="category_id" ref="module_category_visitor"/>
+            <field name="implied_ids" eval="False"/>
+        </record>
+
+        <record id="group_visitor_manager" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="module_category_visitor"/>
+            <field name="implied_ids" eval="False"/>
+
+            <!-- <field name="implied_ids" eval="[(4, ref('group_visitor_management'))]"/> -->
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

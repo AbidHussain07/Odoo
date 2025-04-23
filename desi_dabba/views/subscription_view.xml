@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_subscription_form_inherit" model="ir.ui.view">
+            <field name="name">sale.subscription.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_invoice']" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            class="oe_stat_button"
+                            type="object"
+                            name="action_view_delivery_orders"
+                            icon="fa-truck"
+                            string="Deliveries"
+                            invisible="delivery_order_count == 0">
+                            <field name="delivery_order_count" widget="statinfo" />
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_template_id']" position="before">
+                    <field name="meal_type" widget="radio" invisible='not plan_id' required="plan_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">sale.stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <!-- <xpath expr="//field[@name='scheduled_date']" position="after">
+                    <field name="schedule_date"/>
+                </xpath> -->
+                <xpath expr="//div[@class='o_row']" position="after">
+                    <field name="schedule_date" />
+                </xpath>
+                <xpath expr="//field[@name='date_done']" position="before">
+                    <field name="meal_type" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_stock_inherit_tree" model="ir.ui.view">
+            <field name="name">sale.stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='scheduled_date']" position="after">
+                    <field name="schedule_date" />
+                </xpath>
+                <xpath expr="//field[@name='state']" position="after">
+                    <button name="button_validate" type="object" invisible="state != 'assigned'"
+                        title="Delivered" class="fa fa-check btn-outline-success" />
+                    <!-- <button name="action_cancel" type="object"
+                        invisible="state in ['done', 'cancel']"
+                        title="Cancel Delivery" class="fa fa-times btn-outline-danger" /> -->
+                    <!-- <button name="action_regenerate" type="object" invisible="state in ['done',
+                    'cancel']"
+                    title="Return to Draft" class="fa fa-retweet " /> -->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_invoice_inherit_tree" model="ir.ui.view">
+            <field name="name">invoice.getting.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='order_lines']" position="after">
+                    <page name="invoices" string="Invoice Details">
+                        <field name="get_invoice_ids" />
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_template_id']" position="before">
+                    <field name="working_day_ids" invisible="not plan_id" required="plan_id"
+                        widget='many2many_checkboxes' />
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <button name="action_cancel_next_delivery" type="object" string="Cancel Next Delivery" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_button_tree" model="ir.ui.view">
+            <field name="name">button.visible.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <!-- <xpath expr="//button[@name='button_draft']" position="after">
+                    <button name="generate_delivery" type="object" class="btn-primary"
+                        string="Generate Delivery Order" />
+                </xpath> -->
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                    <field name="delivery_trigger_field" invisible='0' />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <field name="complex_id" />
+                    <field name="wing_id" invisible= "not complex_id" />
+                    <field name="office_no" />
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="region_id" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

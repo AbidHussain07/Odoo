@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="view_example_appointment_form" model="ir.ui.view">
+            <field name="name">example.appointment.form</field>
+            <field name="model">example.appointment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Are you sure you want to print this appointment?">
+                    <group>
+                        <field name="patient_id" readonly="0"/>
+                        <field name="date_from" />
+                        <field name="date" />
+                    </group>
+                    <footer>
+                        <button string="Print Appointment" type="object"
+                            name="action_print" class="btn-primary" />
+                        <button string="Discard" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_example_appointment" model="ir.actions.act_window">
+            <field name="name">Print Appointments</field>
+            <field name="res_model">example.appointment.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

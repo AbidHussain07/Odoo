@@ -1,0 +1,151 @@
+<odoo>
+
+    <!-- Define the action linked to the menu -->
+    <record id="action_holiday_dates" model="ir.actions.act_window">
+        <field name="name">Holiday Calendar</field>
+        <field name="res_model">tiffin.holiday</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Tags</p>
+        </field>
+    </record>
+
+    <!-- Optional: Define views to display data -->
+    <record id="view_holiday_dates_tree" model="ir.ui.view">
+        <field name="name">sale.order.holiday.tree</field>
+        <field name="model">tiffin.holiday</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="date" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Define the action linked to the menu -->
+    <record id="action_working_days" model="ir.actions.act_window">
+        <field name="name">Working Days</field>
+        <field name="res_model">working.days</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Days</p>
+        </field>
+    </record>
+
+    <record id="view_working_dates_tree" model="ir.ui.view">
+        <field name="name">sale.order.working.tree</field>
+        <field name="model">working.days</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" />
+                <field name="day_index" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Add a New Menu Under Sales > Configuration -->
+    <menuitem id="menu_desi_dabba_conf" name="Desi Dabba Conifguration"
+        parent="sale_subscription.menu_sale_subscription_config" sequence="0"/>
+
+    <menuitem id="sales_configuration_menu"
+        name="Holiday Dates"
+        parent="menu_desi_dabba_conf"
+        action="action_holiday_dates"
+        sequence="2" />
+
+    <menuitem id="sales_configuration_working_day_menu"
+        name="Working Days"
+        parent="menu_desi_dabba_conf"
+        action="action_working_days"
+        sequence="3" />
+
+    <menuitem id="cancel_dilivery_menu"
+        name="Cancel Delivery"
+        parent="menu_desi_dabba_conf"
+        action="action_reschedule_delivery_wizard"
+        sequence="0" />
+
+    <menuitem id="report_delivery_menu"
+        name="Daily Delivery Report"
+        parent="menu_desi_dabba_conf"
+        action="action_report_of_delivery_wizard"
+        sequence="1" />
+
+    <!-- =====================================================================  -->
+    <record id="view_complex_name_tree" model="ir.ui.view">
+        <field name="name">client.complex.tree</field>
+        <field name="model">res.partner.complex</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" />
+                <field name="wing_ids" widget='many2many_tags' />
+                <field name="region_id" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_complex_wings_tree" model="ir.ui.view">
+        <field name="name">client.wings.tree</field>
+        <field name="model">res.partner.wing</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="res_partner_complex_action" model="ir.actions.act_window">
+        <field name="name">Complex</field>
+        <field name="res_model">res.partner.complex</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Complexes</p>
+        </field>
+    </record>
+
+    <record id="res_partner_wing_action" model="ir.actions.act_window">
+        <field name="name">Wings</field>
+        <field name="res_model">res.partner.wing</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Wings</p>
+        </field>
+    </record>
+
+    <record id="view_complex_region_tree" model="ir.ui.view">
+        <field name="name">client.region.tree</field>
+        <field name="model">res.partner.region</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="res_partner_region_action" model="ir.actions.act_window">
+        <field name="name">Region</field>
+        <field name="res_model">res.partner.region</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Region/Area</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_desi_dabba_service" name="Desi Dabba Services"
+        parent="sale_subscription.menu_sale_subscription_config" sequence="0"/>
+
+    <menuitem id="menu_res_partner_complex" name="Complexes"
+        parent="menu_desi_dabba_service" action="res_partner_complex_action" />
+
+    <menuitem id="menu_res_partner_wing" name="Wings"
+        parent="menu_desi_dabba_service" action="res_partner_wing_action" />
+
+    <menuitem id="menu_res_partner_region" name="Area"
+        parent="menu_desi_dabba_service" action="res_partner_region_action" />
+
+</odoo>

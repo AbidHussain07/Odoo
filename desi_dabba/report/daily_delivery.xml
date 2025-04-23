@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_for_daily_delivery">
+        <t t-call="web.basic_layout"> 
+            <t t-foreach="docs" t-as="wizard">
+                <t t-set="pickings"
+                    t-value="request.env['stock.picking'].search([
+                        ('schedule_date', '=', wizard.date_report),
+                        ('meal_type', '=', wizard.type_of_meal)
+                    ])" />
+                <t t-set="sorted_pickings"
+                    t-value="pickings.sorted(key=lambda p: (
+                        p.partner_id.region_id.id,
+                        p.partner_id.complex_id.id,
+                        p.partner_id.wing_id.id,
+                        p.partner_id.office_no
+                    ))" />
+
+                <!-- Start Single Layout -->
+                <div class="page">
+                    <h2>Stock Picking Report - <t t-esc="wizard.date_report" /></h2>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Partner</th>
+                                <th>Product</th>
+                                <th>Office No.</th>
+                                <th>Scheduled Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="current_region" t-value="None" />
+                            <t t-set="current_complex" t-value="None" />
+                            <t t-set="current_wing" t-value="None" />
+                            <t t-foreach="sorted_pickings" t-as="picking">
+                                <!-- Group by Region -->
+                                <t t-if="picking.partner_id.region_id != current_region">
+                                    <tr>
+                                        <td colspan="7"
+                                            style="font-weight: bold; background-color: #f2f2f2;">
+                                            Region: <t t-esc="picking.partner_id.region_id.name" />
+                                        </td>
+                                    </tr>
+                                    <t t-set="current_region"
+                                        t-value="picking.partner_id.region_id" />
+                                </t>
+                                <!-- Group by Complex -->
+                                <t t-if="picking.partner_id.complex_id != current_complex">
+                                    <tr>
+                                        <td colspan="7"
+                                            style="font-weight: bold; background-color: #e6e6e6;">
+                                            Complex: <t
+                                                t-esc="picking.partner_id.complex_id.name" />
+                                        </td>
+                                    </tr>
+                                    <t t-set="current_complex"
+                                        t-value="picking.partner_id.complex_id" />
+                                </t>
+                                <!-- Group by Wing -->
+                                <t t-if="picking.partner_id.wing_id != current_wing">
+                                    <tr>
+                                        <td colspan="7"
+                                            style="font-weight: bold; background-color: #cccccc;">
+                                            Wing: <t t-esc="picking.partner_id.wing_id.name" />
+                                        </td>
+                                    </tr>
+                                    <t t-set="current_wing" t-value="picking.partner_id.wing_id" />
+                                </t>
+                                <!-- Delivery Entry -->
+                                <tr>
+                                    <td>
+                                        <t t-esc="picking.name" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="picking.partner_id.name or 'N/A'" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="picking.product_id.name or 'N/A'" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="picking.partner_id.office_no or 'N/A'" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="picking.schedule_date" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End Single Layout -->
+            </t>
+        </t>
+    </template>
+</odoo>

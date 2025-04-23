@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_visitor_list" model="ir.ui.view">
+        <field name="name">visitor.list.view</field>
+        <field name="model">visitor.partner</field>
+        <field name="arch" type="xml">
+
+            <list string="visitors" decoration-info="state == 'waiting'"
+                decoration-success="state== 'otp_verification'"
+                decoration-danger="state == 'rejected'"
+                default_order="create_date desc">
+                <field name="name" />
+                <field name="v_name" />
+                <field name="partner_id" optional='show' />
+                <field name="phone" />
+                <field name="mobile" optional='show' />
+                <field name="email" />
+                <field name="visitor_destination" optional='show' />
+                <field name="visitor_type1" />
+                <field name="visitor_category_id" optional='show' />
+                <field name="responsible_person" />
+                <field name="check_in" />
+                <field name="check_out" />
+                <field name="state" widget="badge"
+                    decoration-primary="state in('Approved')"
+                    decoration-warning="state== 'rejected'"
+                    decoration-success="state== 'otp_verification'"
+                    decoration-info="state == 'waiting'"
+                />
+                <field name="company_name" optional='show' />
+                <field name="duration" optional='show' />
+                <field name="refrence" optional='show' />
+                <field name="employee_id" optional='show' />
+                <field name="department_id" optional='show' />
+                <field name="active" optional='show' />
+
+            </list>
+        </field>
+    </record>
+
+    <record id="visitor_form_view" model="ir.ui.view">
+        <field name="name">visitor.form.view</field>
+        <field name="model">visitor.partner</field>
+        <field name="arch" type="xml">
+            <form string="visitors">
+           
+                <header>
+                    <button name="action_draft_visiitor" string="Reset To Draft" type="object"
+                        class="btn-primary" invisible="state != 'rejected'" />
+                    <button name="action_waiting_visiitor" string="Submit For Approval"
+                        data-hotkey="g" type="object" class="btn-primary"
+                        invisible="state != 'draft'" />
+
+                    <button name="action_approved_visiitor" string="Approve" type="object"
+                        class="btn-primary"
+                        invisible="state != 'waiting' or responsible_person != uid"/>
+
+                    <button name="action_reject_visiitor" string="Reject" type="object"
+                        class="oe_stat_button"
+                        invisible="state != 'waiting' or responsible_person != uid"/>
+
+
+                    <button name="action_send_otp" type="object" string="Send OTP"
+                        class="btn-primary" invisible="state != 'approved'"
+                        groups="dh_visitor_managment.group_visitor_manager,dh_visitor_managment.group_vistor_security" />
+                    <button name="action_otp_verfication_visiitor" type="object" string="Verify OTP"
+                        class="oe_stat_button" invisible="state != 'approved'"
+                        groups="dh_visitor_managment.group_visitor_manager,dh_visitor_managment.group_vistor_security" />
+                    <button name="action_cancel_visiitor" string="Cancel" type="object"
+                        class="oe_stat_button" invisible="state != 'draft'" />
+                    <button name="action_print_pass" string="Print Visitor Pass" type="object"
+                        class="oe_stat_button" invisible="state != 'otp_verification'"
+                        groups="dh_visitor_managment.group_visitor_manager,dh_visitor_managment.group_vistor_security" />
+                    <button name="action_check_in" string="Check In" type="object"
+                        class="oe_stat_button" invisible="state != 'otp_verification' or check_in"
+                        groups="dh_visitor_managment.group_visitor_manager,dh_visitor_managment.group_vistor_security" />
+                    <button name="action_check_out" string="Check Out" type="object"
+                        class="oe_stat_button"
+                        invisible="state != 'otp_verification' or not check_in or check_out"
+                        groups="dh_visitor_managment.group_visitor_manager,dh_visitor_managment.group_vistor_security" />
+
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,waiting,approved,otp_verification,done" />
+                </header>
+
+                <sheet>
+                    <h1>
+                        <field name="name" readonly="1" />
+                        <field name="qr_code" widget='image' class="oe_avatar"
+                            invisible="state not in ('waiting', 'approved', 'otp_verification','done')" />
+
+                    </h1>
+
+                    <group>
+                        <group>
+                            <separator string="VISITOR DETAILS" />
+                            <field name="partner_id"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="v_name"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="company_name"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="phone"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="mobile"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="email"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                        </group>
+
+                        <group>
+                            <separator string="CHECK IN/OUT" invisible="state not in ('otp_verification','done')" />
+                            <group>
+                                <field name="check_in" readonly="state  in ('otp_verification','done')"
+                                    invisible="state not in ('otp_verification','done')" style="width: 200px;" />
+                                <field name="check_out" readonly="state  in ('otp_verification','done')"
+                                    invisible="state not in ('otp_verification','done')" style="width: 200px;"/>
+                                <field name="duration" readonly="state in ('otp_verification','done')"
+                                    widget="float_time"
+                                    invisible="state not in ('otp_verification','done')" />
+                            </group>
+                           
+                                <separator string="SECURITY GATE" invisible="state not in ('otp_verification','done')" readonly="state  in ('otp_verification','done')"/>
+                            <group>
+                                <field name="visitor_checkin_gate_id" invisible="state not in ('otp_verification','done')" readonly="state  in ('otp_verification','done')"/>
+                                <field name="visitor_checkout_gate_id" invisible="state not in ('otp_verification','done')" readonly="state  in ('otp_verification','done')"/>
+                            </group>
+                            <group col="1">
+                                <field name="checkin_guards_id" invisible="state not in ('otp_verification','done')" style="width: 200px;" nolabel="1" readonly="state  in ('otp_verification','done')"/>
+                                <field name="checkout_guards_id" invisible="state not in ('otp_verification','done')" style="width: 200px;" nolabel="1" readonly="state  in ('otp_verification','done')"/>
+                            </group>
+
+   
+
+                        </group>
+                     
+                    </group>
+
+                    <group>
+                        <group>
+                            <separator string="VISIT DETAILS" />
+                            <field name="visitor_destination"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="visitor_type1"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="visitor_category_id"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="visitor_reject_reason" invisible="state != 'rejected'" />
+                            <field name="active" invisible='1' />
+                        </group>
+
+                        <group>
+                            <separator string="CONTACT DETAILS" />
+                            <field name="department_id"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="refrence"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="employee_id"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                            <field name="responsible_person"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                        </group>
+                    </group>
+
+
+                    <notebook colspan="4">
+                        <page string="Purpose">
+                            <field name="visitor_purpose"
+                                readonly="state in ('waiting', 'approved','otp_verification','done')" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+                
+        </field>
+    </record>
+
+
+    <record id="visitor_view_search" model="ir.ui.view">
+        <field name="name">visitor.view.search</field>
+        <field name="model">visitor.partner</field>
+        <field name="arch" type="xml">
+            <search string="Visitor Search">
+                
+                <field name="name"/>
+                <field name="v_name"/>
+                <field name="partner_id"/>
+                <field name="email"/>
+                <field name="mobile"/>
+
+                <filter name="otp" string="Bypass OTP"
+                    domain="[('visitor_category_id.otp', '=', True)]" />
+                <group expand="1" string="Group By">
+                    <filter string="Check IN " name="check_in"
+                        context="{'group_by': 'create_date:week'}" />
+                    <filter string="Check OUT" name="check_out"
+                        context="{'group_by': 'create_date:week'}" />
+                    <separator />
+                    <filter string="Visitor Type" name="visitor_type1"
+                        context="{'group_by': 'visitor_type1'}" />
+                    <filter string="Visitor Category" name="visitor_category_id"
+                        context="{'group_by': 'visitor_category_id'}" />
+                    <separator />
+                    <filter string="Status" name="state"
+                        context="{'group_by': 'state'}" />
+
+
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]" />
+
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="visitor_action" model="ir.actions.act_window">
+        <field name="name">Visitors</field>
+        <field name="res_model">visitor.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids"
+            eval="[(5, 0, 0), 
+                                (0, 0, {'view_mode': 'list', 'view_id': ref('dh_visitor_managment.view_visitor_list')}), 
+                                (0, 0, {'view_mode': 'form', 'view_id': ref('dh_visitor_managment.visitor_form_view')})]" />
+        
+
+    </record>
+
+    <record id="visitor_validate_qr" model="ir.actions.act_window">
+        <field name="name">Validate Visitor</field>
+        <field name="res_model">check.visitor</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'custom_wizard_type': 'validate'}</field>
+    </record>
+
+    <record id="visitor_reporting_action" model="ir.actions.act_window">
+        <field name="name">Visitor Summary Report</field>
+        <field name="res_model">visitor.reporting</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

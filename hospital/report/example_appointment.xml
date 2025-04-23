@@ -1,0 +1,108 @@
+<odoo>
+    <template id="report_example_appointment">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="oe_structure" />
+                <div class="row">
+                    <div class="col-xs-8">
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong>Patient Name</strong>
+                                </td>
+                                <td>
+                                    <span>: </span>
+                                </td>
+                                <td>
+                                    <t t-if="form and form.get('patient_id')">
+                                        <t t-esc="form['patient_id'][1]" />
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <hr />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Date from</strong>
+                                </td>
+                                <td>
+                                    <span>: </span>
+                                </td>
+                                <td>
+                                    <t t-if="form and form.get('date_from')">
+                                        <t t-esc="form['date_from']" />
+                                    </t>
+                                </td>
+                            </tr>
+                            <td colspan="3">
+                                <hr />
+                            </td>
+                            <tr>
+                                <td>
+                                    <strong>Till Date</strong>
+                                </td>
+                                <td>
+                                    <span>: </span>
+                                </td>
+                                <td>
+                                    <t t-if="form and form.get('date')">
+                                        <t t-esc="form['date']" />
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <span>Appointment Details</span>
+                <table class="table table-sm o_main_table" name="appointment">
+                    <thead>
+                        <tr>
+                            <th name="th_reference" class="text-left">
+                                <span>Reference</span>
+                            </th>
+                            <th name="th_name" class="text-left">
+                                <span>Name</span>
+                            </th>
+                            <th name="th_doctor" class="text-left">
+                                <span>Doctor</span>
+                            </th>
+                            <th name="th_date" class="text-left">
+                                <span>Date</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <t t-set="appointment_count" t-value="0" />
+                    <t t-foreach="appointments" t-as="line">
+                        <t t-set="appointment_count" t-value="appointment_count + 1" />
+                        <tr>
+                            <td>
+                                <span t-esc="line['reference']" />
+                            </td>
+                            <td>
+                                <span t-esc="line['patient_id'][1]" />
+                            </td>
+                            <td>
+                                <span t-esc="line['doctor_id'][1]" />
+                            </td>
+                            <td>
+                                <span t-esc="line['appointment_time'][:10]" />
+                            </td>
+                        </tr>
+                    </t>
+                    <tr>
+                        <td colspan="3">
+                            <strong>Total Appointments</strong>
+                        </td>
+                        <td>
+                            <t t-esc="appointment_count" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

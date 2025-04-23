@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_patient_readonly_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.readonly.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list string="Patients" create="0" delete="0" edit="0" sample="1">
+                <field name="name" />
+                <field name="dob" optional="hide" />
+                <field name="gender" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hospital_patient_readonly_form" model="ir.ui.view">
+        <field name="name">hospital.patient.readonly.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patients" create="0" delete="0" edit="0">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="dob" />
+                        <field name="gender" />
+                    </group>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="view_hospital_patient_readonly_search" model="ir.ui.view">
+        <field name="name">hospital.patient.readonly.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name" />
+                <field name="gender" />
+                <group expand="1" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}" />
+                </group>
+            </search>
+        </field>
+    </record> -->
+
+    <record id="action_hospital_patient_readonly" model="ir.actions.act_window">
+        <field name="name">View Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">list,form</field>
+        <!-- <field name="view_ids"
+            eval="[Command.clear(),
+            (0,0,{'view_mode':'list', 'view_id': ref('view_hospital_patient_readonly_tree')}),
+            (0,0,{'view_mode':'form', 'view_id': ref('view_hospital_patient_readonly_form')})]" />
+        <field name="search_view_id" ref="view_hospital_patient_readonly_search" /> -->
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Patient</p>
+        </field>
+    </record>
+
+
+<!-- =============================================================================================================== -->
+<!-- Odoo ORM methods  -->
+<!-- search  -->
+
+<!-- name = self.env['hospital.patient'].search([('name', '=', 'John')])
+
+name = self.env['hospital.patient'].search([('name', 'ilike', 'john')])
+If there are patient records where the name is "John", "john", "JOHN", or even "Mister John Doe", they will all be returned by this search.
+ilike ignores case, meaning it doesn’t matter if the letters are uppercase or lowercase.
+
+name = self.env['hospital.patient'].search([('name', '=', 'John'),('dob', '=', '2020-01-01')])
+It will return the patient records where the name is "John" and the date of birth is "2020-01-01".
+
+name = self.env['hospital.patient'].search([('name', '=', 'John'),('dob', '!=', '2020-01-01')])
+It will return the patient records where the name is "John" and the date of birth is not "2020-01-01".
+
+name = self.env['hospital.patient'].search(['|',('name', '=', 'John'),('dob', '>', '2020-01-01')])
+It will return the patient records where the name is "John" or the date of birth is greater than "2020-01-01" because of '|'this command 'or' operator exists'. -->
+
+<!-- =============================================================================================================== -->
+<!-- search count -->
+
+<!-- name = self.env['hospital.patient'].search_count([('name', '=', 'John')])
+It will return the count of patient records where the name is "John".
+instead of returning the records, it will return the count of records by using search_count. -->
+
+<!-- =============================================================================================================== -->
+<!-- search read -->
+
+<!-- name = self.env['hospital.patient'].search_read([('name', '=', 'John')], ['name', 'dob'])
+It will return the patient records where the name is "John" and will only return the name and date of birth fields. -->
+
+<!-- =============================================================================================================== -->
+<!-- ref -->
+
+<!-- <field name="view_id" ref="view_hospital_patient_readonly_tree" />
+The ref attribute is used to refer to the view_hospital_patient_readonly_tree view. -->
+
+<!-- name = self.env.ref('module_name.xml_id')
+It will return the record of the xml_id from the module_name. -->
+
+<!-- =============================================================================================================== -->
+<!-- browse -->
+
+<!-- name = self.env['hospital.patient'].browse(1)
+It will return the patient record with the ID 1. -->
+<!-- if name.exists():
+    print(name.name)
+else:
+    print('Record not found') -->
+
+<!-- =============================================================================================================== -->
+<!-- create -->
+
+<!-- name = self.env['hospital.patient'].create({'name': 'John', 'dob': '2020-02-01'})
+It will create a new patient record with the name "John" and the date of birth "2020-02-01". -->
+
+<!-- =============================================================================================================== -->
+<!-- write -->
+
+<!-- name = self.env['hospital.patient'].search([('name', '=', 'John')])
+name.write({'name': 'Johnny'})
+It will search for the patient record where the name is "John" and update the name to "Johnny". -->
+
+<!-- name = self.env['hospital.patient'].browse(1)
+if name.exists():
+    vals = {'name': 'Johnny', 'email': 'jonny@email.com'}
+    name.write(vals)
+else:
+    print('Record not found')
+
+It will search for the patient record with the ID 1 and update the name to "Johnny" and email which is given " -->
+
+<!-- =============================================================================================================== -->
+<!-- copy -->
+
+<!-- name = self.env['hospital.patient'].browse(1)
+name.copy(default={'name': 'Johnny'})
+It will search for the patient record with the ID 1 and create a new patient record with the same details but with the name "Johnny". -->
+
+<!-- =============================================================================================================== -->
+<!-- unlink -->
+
+<!-- name = self.env['hospital.patient'].search([('name', '=', 'John')])
+name.unlink()
+It will search for the patient record where the name is "John" and delete it. -->
+
+
+<!-- =============================================================================================================== -->
+<!-- getmetadata -->
+
+<!-- name = self.env['hospital.patient'].search([('name', '=', 'John')])
+name.get_metadata()
+It will return the all metadata of the patient record where the name is "John" in the dictionary form inside list. -->
+
+<!-- name = self.env['hospital.patient'].browse(1)
+name.get_metadata()[0]
+It will return the all metadata of the patient record where the name is "John" in the dictionary form. 
+name.get_metadata()[0].get('xmlid')
+It will return the XML ID of the patient record where the id 1. -->
+
+<!-- =============================================================================================================== -->
+<!-- getfields -->
+
+<!-- name = self.env['hospital.patient'].search([('name', '=', 'John')])
+name.fields_get()
+It will return the all fields of the patient record where the name is "John" in the dictionary form inside list. -->
+
+<!--name = self.env['hospital.patient'].fields_get(['name', 'dob'])
+It will return the all fields of the patient record where the name is "John" in the dictionary form inside list. -->
+
+<!-- name = self.env['hospital.patient'].fields_get(['name', 'dob'], attributes=['string', 'help']) or
+name = self.env['hospital.patient'].fields_get(['name', 'dob'],['string', 'help', 'type'])
+It will return the all fields of the patient record where the name is "John" in the dictionary form inside list with the string and help attributes. --> -->
+
+<!-- =============================================================================================================== -->
+<!-- read -->
+
+<!-- Read the 'name' and 'job_id' fields of an employee with ID 1 -->
+<!-- <field name="employee_data" eval="self.env['hr.employee'].browse(1).read(['name', 'job_id'])" /> -->
+
+<!-- Read all fields of an employee with ID 1 -->
+<!-- <field name="employee_data" eval="self.env['hr.employee'].browse(1).read()" /> -->
+
+<!-- =============================================================================================================== -->
+<!-- name get -->
+
+<!-- name = self.env['hospital.patient'].search([('name', '=', 'John')])
+name.name_get()
+It will return the name of the patient record where the name is "John". -->
+
+<!-- <field name="employee_data" eval="self.env['hr.employee'].browse(1).name_get()" /> -->
+
+<!-- =============================================================================================================== -->
+<!-- default get -->
+
+<!-- name = self.env['hospital.patient'].default_get(['name', 'dob'])
+It will return the default values of the name and date of birth fields of the patient model. -->
+
+<!-- =============================================================================================================== -->
+
+</odoo>

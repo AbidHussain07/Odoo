@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_appointment_line_tree" model="ir.ui.view">
+        <field name="name">hospital.appointment.line.tree</field>
+        <field name="model">hospital.appointment.line</field>
+        <field name="arch" type ="xml">
+            <list string="Appointments Line" editable="bottom">
+                <field name="appointment_id" readonly='1'/>  
+                <field name="disease_id"/>
+                <field name="price" optional="show" widget="monetary" decoration-bf="1"/> <!--bf stands for bold-->
+                <field name="qty" decoration-it="1"/>  <!--it stands for italic-->
+                <field name="currency_id" optional="hide"/>
+                <field name="sub_total" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hospital_appointment_line" model="ir.actions.act_window" >
+        <field name="name">Appointments</field>
+        <field name="res_model">hospital.appointment.line</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+        Add an Appointment Line</p></field>
+    </record>
+
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_inherit_tags" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.tags</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']" position="inside">
+                <group>
+                    <field name="contact_tag_ids" widget="many2many_tags"/>
+                    <field name="department_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

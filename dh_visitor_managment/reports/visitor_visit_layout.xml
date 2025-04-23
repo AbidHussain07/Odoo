@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_visitor_pdf">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <main>
+                    <h2 style="text-align: center;">Visitor Summary Report</h2>
+                    <table class="table table-sm" style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid black; padding: 5px;">Visitor</th>
+                                <th style="border: 1px solid black; padding: 5px;">Responsible Person</th>
+
+                                <th style="border: 1px solid black; width:12%; padding: 3px;">Check In</th>
+                                <th style="border: 1px solid black; padding: 10px;">Check in gate</th>
+                                <th style="border: 1px solid black; width:12%; padding: 3px;">Check Out</th>
+                                <th style="border: 1px solid black; padding: 10px;">Check out gate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="visitor">
+                                <tr>
+                                    <t t-if="visitor">
+                                    <td style="border: 1px solid black; padding: 5px;"><t t-esc="visitor.v_name"/></td>
+                                    </t>
+                                    <td style="border: 1px solid black; padding: 5px;"><t t-esc="visitor.responsible_person.name"/></td>
+                                    <td style="border: 1px solid black; padding: 3px;"><t t-esc="visitor.check_in and visitor.check_in.strftime('%Y-%m-%d %H:%M:%S') or ''"/></td>
+                                    <td style="border: 1px solid black; padding: 10px;"><t t-esc="visitor.visitor_checkin_gate_id.name" /> [<t t-esc="visitor.checkin_guards_id.name"></t>]</td>
+                                    <td style="border: 1px solid black; padding: 3px;"><t t-esc="visitor.check_out and visitor.check_in.strftime('%Y-%m-%d %H:%M:%S') or ''"/></td>
+                                    <td style="border: 1px solid black; padding: 10px;"><t t-esc="visitor.visitor_checkout_gate_id.name" /> [<t t-esc="visitor.checkout_guards_id.name"></t>]</td>
+                                                                    
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </main>
+            </div>
+        </t>
+    </template>
+</odoo>

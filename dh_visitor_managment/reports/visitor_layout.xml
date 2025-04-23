@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="visitor_report_action">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+
+                    <h2 style="text-align: center; font-size: 44px;">Visitor visit pass</h2>
+
+                    <table style="width: 100%; margin-top: 20px; margin-bottom: 10px;">
+                        <tr>
+                            <!-- QR Code -->
+                            <td style="width: 50%; text-align: left; padding-top:60px;">
+                                <t t-if="doc.qr_code">
+                                    <img t-att-src="'data:image/png;base64,' + doc.qr_code.decode('utf-8')"
+                                         alt="QR Code"
+                                         style="max-width: 80px; max-height: 80px; margin-bottom: 5px;"/>
+                                </t>
+                            </td>
+                    
+                            <!-- Visitor ID -->
+                            <td style="width: 50%; text-align: right; vertical-align: top; padding-top:100px;">
+                                <p style="margin: 2; font-size: 24px;">
+                                    <strong><span t-field="doc.name"/></strong>
+                                </p>
+                            </td>
+                        </tr>
+                    
+                        <!-- Check In & Check Out on same row -->
+                        <tr>
+                            <td style="text-align: left;">
+                                <p style="margin: 0;"><strong>Check In:</strong> <span t-field="doc.check_in"/></p>
+                            </td>
+                            
+                            <td style="text-align: right;">
+                                <p style="margin: 0;"><strong>Check Out:</strong> <span t-field="doc.check_out"/></p>
+                            </td>
+                        </tr>
+                    </table>
+                    
+
+
+
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                            <tr style="background-color: #f0f0f0;">
+                                <th colspan="2"
+                                    style="border: 1px solid black; text-align: left; padding: 5px;">Visitor
+                                    Details</th>
+                                <th colspan="2"
+                                    style="border: 1px solid black; text-align: left; padding: 5px;">Contact
+                                    Details</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Name</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.partner_id" />
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">Reference</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.v_name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Phone</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.phone" />
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">Employee</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.employee_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Email</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.email" />
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">Department</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.department_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Company</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.refrence" />
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                <td style="border: 1px solid black; padding: 5px;"></td>
+                            </tr>
+                        </table>
+
+                        <h4>Visit Details:</h4>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Visit Destination</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.visitor_destination" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Visit Type</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.visitor_type1" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">Visit Category</td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <span t-field="doc.visitor_category_id" />
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h4>Purpose:</h4>
+                        <p>
+                            <span t-field="doc.visitor_purpose" />
+                        </p>
+
+                    
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

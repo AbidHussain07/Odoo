@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>   
+        <record id="action_visitor_report" model="ir.actions.report">
+            <field name="name">Visitor Data</field>
+            <field name="model">visitor.partner</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dh_visitor_managment.visitor_report_action</field>
+            <field name="report_file">dh_visitor_managment.visitor_report_action</field>
+            <field name="binding_model_id" ref="model_visitor_partner" />
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="action_report_visitor_pdf" model="ir.actions.report">
+            <field name="name">Visitor Summary Report</field>
+            <field name="model">visitor.partner</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dh_visitor_managment.report_visitor_pdf</field>
+            <field name="report_file">dh_visitor_managment.report_visitor_pdf</field>
+            <field name="binding_model_id" ref="model_visitor_partner"/>
+        </record>
+</odoo>
+
+ 

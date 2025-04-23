@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_appointment_activity" model="ir.ui.view">
+        <field name="name">hospital.appointment.activity</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <activity string="Appointments Activity">
+                <field name="patient_id" />
+                <field name="reference" />
+                <templates>
+                    <div t-name="activity-box">
+                        <img class="rounded-circle"
+                            t-att-src="activity_image('hospital.patient', 'patient_image', record.patient_id.raw_value)"
+                            role="img" t-att-title="record.patient_id.value"
+                            t-att-alt="record.patient_id.value" />
+                        <div class="ms-2">
+                            <field name="patient_id" display="full" class="o_text_block" />
+                            <field name="reference" muted="1" class="o_text_block" />
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <!-- Mark as Done Button in action menu -->
+    <record id="model_mark_As_done" model="ir.actions.server">
+        <field name="name">Mark as Done</field>
+        <field name="model_id" ref="hospital.model_hospital_appointment" />
+        <field name="binding_model_id" ref="hospital.model_hospital_appointment" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                if rec.state == 'ongoing':
+                    rec.action_done()
+        </field>
+    </record>
+
+    <!-- Mark as Cancel Button in action menu {it will not work due to we take patient id while
+    cancellation via popup window}  -->
+    <!-- <record id="model_cancel_appointment" model="ir.actions.server">
+            <field name="name">Cancel Appointment</field>
+            <field name="model_id" ref="hospital.model_hospital_appointment"/>
+            <field name="binding_model_id" ref="hospital.model_hospital_appointment"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+            for rec in records:
+                if rec.state != 'done' or rec.state != 'cancel':
+                    rec.action_cancel()
+            </field>
+        </record> -->
+
+    <record id="view_hospital_appointment_calendar" model="ir.ui.view">
+        <field name="name">hospital.appointment.calendar</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <calendar string="Appointments" date_start="appointment_time" date_delay="duration" color="state"
+                quick_create="False"
+                mode="month" event_open_popup="True" event_limit="3">
+                <field name="reference" />
+                <field name="patient_id" avatar_field="patient_image" /> <!-- for avatar means Photo
+                in calendar view -->
+                <field name="doctor_id" invisible="1" filters="1" avatar_field="profile" />
+                <field name="state" invisible="1" filters="1" />
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_hospital_appointment_tree" model="ir.ui.view">
+        <field name="name">hospital.appointment.tree</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <!-- <list string="Appointments" create="0" delete="0"> -->
+            <list string="Appointments" decoration-success="state == 'done'"
+                decoration-muted="state == 'draft'" decoration-danger="state == 'cancel'"
+                decoration-info="state == 'confirm'" decoration-warning="state == 'ongoing'"
+                sample="1" multi_edit="1" export_xlsx="0" import="0">
+                <!-- export_xlsx="0" import="0" ==> for not to export and import data from list view -->
+
+                <field name="appointment_time" optional="show" />
+                <field name="reference" decoration-bf="1" />
+                <field name="patient_id" />
+                <field name="doctor_id" />
+                <!-- for avatar means Photo in list view -->
+                <field name="create_uid" widget="many2one_avatar_user" />
+                <field name="activity_ids" widget="list_activity" optional="show" />
+                <field name="total_qty" decoration-bf="1" />
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                    decoration-muted="state == 'draft'" decoration-danger="state == 'cancel'"
+                    decoration-info="state == 'confirm'" decoration-warning="state == 'ongoing'" />
+                <!-- <field name="create_uid" groups="hospital.group_hospital_doctor_id"/> -->
+                <button name="action_done" type="object" invisible="state != 'ongoing'"
+                    title="Mark as Done" class="fa fa-check btn-outline-success" />
+                <button name="action_cancel" type="object" invisible="state in ['done', 'cancel']"
+                    title="Cancel the appointment" class="fa fa-times btn-outline-danger" />
+                <button name="action_draft" type="object" invisible="state != 'cancel'"
+                    title="Return to Draft" class="fa fa-reply-all btn-basic" />
+                <!-- <field name="progress" widget="progressbar" /> -->
+                <field name="progress" widget="percentpie" />
+                <groupby name="patient_id">
+                    <button name="edit" type="edit" string="Edit" />
+                    <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" />
+                </groupby>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hospital_appointment_kanban" model="ir.ui.view">
+            <field name="name">hospital.appointment.kanban</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card d-flex " style="gap: 10px;">
+                                <!-- Patient Details -->
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <field name="patient_id"/>
+                                    </strong>
+                                    <div>
+                                        <strong>Reference:</strong> 
+                                        <field name="reference"/>
+                                    </div>
+                                    <div>
+                                        <strong>Doctor:</strong> 
+                                        <field name="doctor_id"/>
+                                    </div>
+                                    <div>
+                                        <strong>Appointment Time:</strong> 
+                                        <field name="appointment_time"/>
+                                    </div>
+                                </div>
+                                <footer>
+                                    <div class="oe_kanban_tags">
+                                        <field name="state"/>
+                                    </div>
+                                </footer>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+    <record id="view_hospital_appointment_form" model="ir.ui.view">
+        <field name="name">hospital.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+                <header>
+                    <!-- type = object ==> buttton type -->
+                    <!-- <button name="%(hospital.action_hospital_patient)d" type="action"
+                        confirm="Are you sure you want to go to Patient List?"
+                        string="Go to Patient List" data-hotkey="b" /> -->
+                    <button name="action_test" type="object" string="Go to Url"
+                        confirm="Are you sure you want to visit Wesite?"
+                        class="oe_highlight" />
+                    <!-- type = object ==> buttton type -->
+                    <button name="action_confirm" type="object" string="Confirm"
+                        invisible="state != 'draft'" class="oe_highlight" data-hotkey="x" />
+                    <button name="action_ongoing" type="object" string="Ongoing"
+                        invisible="state != 'confirm'" class="oe_highlight" data-hotkey="y" />
+                    <button name="action_done" type="object" string="Done"
+                        invisible="state != 'ongoing'" class="oe_highlight" data-hotkey="z" />
+
+                    <button name="action_cancel" type="object" string="Cancel"
+                        invisible="state in ['done', 'cancel']" data-hotkey="q" />
+                    <!-- <button name="%(hospital.action_cancel_appointment)d" type="action"
+                    string="Cancel"
+                        invisible="state in ['done', 'cancel']" data-hotkey="q"/> -->
+
+                    <button name="action_draft" type="object" string="Back to Draft"
+                        invisible="state != 'cancel'" data-hotkey="r" />
+
+                    <button name="action_whatsapp" type="object" string="Whatsapp"
+                        confirm="Are you sure you want to message on whatsapp?"
+                        class="oe_highlight" icon="fa-whatsapp" />
+
+                        <button name="action_send_email" type="object" string="Send Email"
+                        confirm="Are you sure you want to email?"
+                        class="oe_highlight" icon="fa-envelope" />
+
+                    <button name="action_notification" type="object" string="Notification"
+                        icon="fa-home" />
+
+                    <!-- For understanding of ORM in appointment.py file line:58
+                <button name="test_recordset" type="object" string="Record Operation" class="oe_highlight"/> -->
+
+                    <!-- widget for better UI & options="{'clickable':'1'}" for able to click
+                    directly -->
+                    <!-- <field name="state" widget="statusbar" options="{'clickable':'1'}"/> -->
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,confirm,ongoing,done" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <label for="reference" string="Reference" style="font-weight:bold;"
+                                class="oe_edit_only" />
+                            <field name="reference" readonly="True" />
+                        </h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id" />
+                            <field name="dob" />
+                            <!-- <field name="date" /> -->
+                            <!-- <field name="date" default_focus="1"/> -->
+                            <field name="appointment_time" widget="time" />
+                            <field name="specialization_id"/>
+                            <field name="doctor_id" domain="[('specialization', '=', specialization_id)]"/>
+                        </group>
+                        <group name="action" string="Actions">
+
+
+                            <field name="total_qty" />
+                            <field name="create_uid" />
+                            <!-- <field name="duration" /> -->
+                            <!-- <field name="hide_disease" /> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="appointment_lines" string="Details">
+                            <field name="appointment_ids" />
+                        </page>
+                        <page name="progress_report" string="Progress">
+                            <field name="progress" widget="gauge"
+                                options="{'style': 'width:100px; height: 80px;'}" />
+                            <field name="progress" widget="progressbar" />
+                        </page>
+                        <page name="appointment_prescription" string="Prescription">
+                            <field name="prescription" placeholder="Enter the details here..."
+                                options="{'collaborative':true, 'resizable':true , 'codeview':true}" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div> -->
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_appointment_search" model="ir.ui.view">
+        <field name="name">hospital.appointment.search</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Appointments">
+                <!-- <field name="date" /> -->
+                <field name="reference"
+                    filter_domain="['|', ('reference', 'ilike', self), ('patient_id', 'ilike', self)]"
+                    string="Patient" />
+                <!-- by using filter_domain we can search by reference or patient_id both  -->
+                <group expand="1" string="Group By">
+                    <filter name="group_by_patient" string="Patient"
+                        context="{'group_by':'patient_id'}" />
+                </group>
+                <searchpanel>
+                    <field name="patient_id" string="Appointors" enable_counters="1" />
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hospital_appointment" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_mode">list,kanban,form,calendar,activity</field>
+        <field name="search_view_id" ref="view_hospital_appointment_search" />
+        <field name="context">{'search_default_group_by_patient': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add an Appointment</p>
+        </field>
+    </record>
+
+</odoo>

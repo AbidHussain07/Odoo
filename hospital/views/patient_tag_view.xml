@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_patient_tag_tree" model="ir.ui.view">
+        <field name="name">patient.tag.tree</field>
+        <field name="model">patient.tag</field>
+        <field name="arch" type ="xml">
+            <list string="Patient Tags" editable="bottom" > 
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color" widget="color_picker" groups="base.group_no_one"/>
+                <field name="color2" widget="color"/>
+            </list>
+        </field>
+    </record>
+
+
+<record id="action_patient_tags" model="ir.actions.act_window" >
+    <field name="name">Diseases</field>
+    <field name="res_model">patient.tag</field>
+    <field name="view_mode">list</field>
+    <field name="help" type="html">
+    <p class="o_view_nocontent_smiling_face">
+    Create new Tags</p></field>
+</record>
+
+</odoo>

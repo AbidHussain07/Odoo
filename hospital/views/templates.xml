@@ -1,0 +1,223 @@
+<odoo>
+    <template id="record_of_patient">
+        <t t-call="website.layout">
+            <title>Patient</title>
+            <t t-foreach="patients" t-as="patient">
+                <table class="table table-condensed"
+                    style="border: 3px solid black !important;">
+                    <tr>
+                        <td width="60%">
+                            <table style="margin-left:auto;margin-right:auto;">
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                    <!-- For going to next page we use {a t-att-href tag}  -->
+                                        <a t-att-href="'/hospital/patient/' + str(patient.id)">
+                                            <strong>
+                                                <span t-field="patient.name" />
+                                            </strong>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <strong>Date of Birth </strong>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>: </span>
+                                    </td>
+                                    <td>
+                                        <span t-field="patient.dob" />
+                                    </td>
+                                </tr>
+                                <td colspan="3">
+                                    <hr />
+                                </td>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <strong>Age</strong>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>: </span>
+                                    </td>
+                                    <td>
+                                        <span t-field="patient.age" />
+                                    </td>
+                                </tr>
+                                <td colspan="3">
+                                    <hr />
+                                </td>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <strong>Gender</strong>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>: </span>
+                                    </td>
+                                    <td>
+                                        <span t-field="patient.gender" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </t>
+        </t>
+    </template>
+
+    <template id="patient_detail_template">
+        <t t-call="website.layout">
+            <title>Patient</title>
+            <div class="page">
+                <div class="oe_structure" />
+                <div class="row">
+                    <div class="col-xs-8">
+                        <table class="table table-condensed"
+                            style="border: 3px solid black !important margin-left:auto;margin-right:auto;">
+                            <tr>
+                                <td width="40%">
+                                    <p style="text-align:center;padding-top:10px;">
+                                        <img t-if="not patient.patient_image"
+                                            t-att-src="'/hospital/static/src/img/patient.jpeg'"
+                                            height="170" border="1" width="170" />
+                                        <img t-if="patient.patient_image"
+                                            t-att-src="'data:image/jpeg;base64,' + patient.patient_image.decode('utf-8')"
+                                            height="170" border="1" width="170" />
+                                    </p>
+                                </td>
+                                <td width="60%">
+                                    <table>
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <strong>
+                                                    <span t-field="patient.name" />
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Date of Birth </strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>: </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="patient.dob" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Age</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>: </span>
+                                            </td>
+                                            <!-- Correct field access for age -->
+                                            <td>
+                                                <span t-field="patient.age" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Gender</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>: </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="patient.gender" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <t t-if="patient.appointment_ids">
+                    <span>Appointment Details</span>
+                    <br/>
+                    <table class="table table-sm o_main_table" name="appointment" style="margin-left:auto;margin-right:auto;">
+                        <thead>
+                            <tr>
+                                <th name="th_sr_no" class="text-left">
+                                    <span>Sr No.</span>
+                                </th>
+                                <th name="th_reference" class="text-left">
+                                    <span>Reference</span>
+                                </th>
+                                <th name="th_name" class="text-left">
+                                    <span>Name</span>
+                                </th>
+                                <th name="th_doctor" class="text-left">
+                                    <span>Doctor</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <t t-set="appointment_count" t-value="0" />
+                        <t t-foreach="patient.appointment_ids" t-as="line">
+                            <t t-set="appointment_count" t-value="appointment_count + 1" />
+                            <tr>
+                                <td>
+                                    <span t-esc="line_index + 1" />
+                                </td>
+                                <td>
+                                    <span t-field="line.reference" />
+                                </td>
+                                <td>
+                                    <span t-field="line.patient_id.name" />
+                                </td>
+                                <td>
+                                    <span t-field="line.doctor_id.name" />
+                                </td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td colspan="3">
+                                <strong>Total Appointments</strong>
+                            </td>
+                            <td>
+                                <t t-esc="appointment_count" />
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </div>
+
+        </t>
+    </template>
+</odoo>
